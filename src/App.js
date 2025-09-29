@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from './components/layout/Layout';
 import Button from './components/ui/Button/Button';
+import SignUpModal from './components/forms/SignUpModal/SignUpModal';
 import { 
   Input, 
   Textarea, 
@@ -10,6 +11,8 @@ import Modal from './components/ui/Modal/Modal';
 function App() {
   return (
     <Layout>
+      <SignUpModal />
+      {/* Exemplo usando Modal genérico
       <Modal isOpen={true} onClose={() => alert('Modal closed!')}> Teste Modal </Modal>
       <Button
         variant='primary'
@@ -45,9 +48,9 @@ function App() {
         placeholder="John doe"
       />
 
-     
+      */}
 
-      {/* Exemplo usando Label genérico */}
+      {/* Exemplo usando Label genérico 
       <Label htmlFor="email">Email Address</Label>
       <Input
         type="text"
@@ -60,7 +63,7 @@ function App() {
        
         placeholder="Content here"
         rows="4"
-      />
+      /> */}
     </Layout>
   );
 }
