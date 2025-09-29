@@ -6,9 +6,11 @@ import {
   Textarea, 
   Label // Se quiser usar o genérico
 } from './components/ui/Input/Input';
+import Modal from './components/ui/Modal/Modal';
 function App() {
   return (
     <Layout>
+      <Modal isOpen={true} onClose={() => alert('Modal closed!')}> Teste Modal </Modal>
       <Button
         variant='primary'
 
