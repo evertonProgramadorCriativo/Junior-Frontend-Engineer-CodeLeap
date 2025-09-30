@@ -12,14 +12,14 @@
 }
 
 .btn-primary {
-  background: #7695EC;
+  background: #7695ecac;
   color: white;
 }
 
 .btn-primary:hover:not(.disabled) {
-  background: linear-gradient(135deg, #6a5acd, #8e44ad);
+  background: linear-gradient(135deg, #7695EC, #1446cd);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(123, 104, 238, 0.3);
+  box-shadow: 0 4px 12px rgba(11, 26, 238, 0.3);
 }
 
 .btn-secondary {

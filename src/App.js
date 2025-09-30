@@ -1,69 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from './components/layout/Layout';
-import Button from './components/ui/Button/Button';
+import { useAuth } from './hooks/useAuth';
 import SignUpModal from './components/forms/SignUpModal/SignUpModal';
-import { 
-  Input, 
-  Textarea, 
-  Label // Se quiser usar o genérico
-} from './components/ui/Input/Input';
-import Modal from './components/ui/Modal/Modal';
+
+
 function App() {
+  const { user, setUser } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Check if user exists
+    if (!user) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [user]);
+
+  const handleUserSignUp = (username) => {
+    // saves the user or not
+    
+    setUser(username);
+    setIsModalOpen(false);
+  };
+
   return (
     <Layout>
-      <SignUpModal />
-      {/* Exemplo usando Modal genérico
-      <Modal isOpen={true} onClose={() => alert('Modal closed!')}> Teste Modal </Modal>
-      <Button
-        variant='primary'
-
-      >enter</Button>
-      <Button
-        variant='secondary'
-
-      >enter</Button>
-      <Button
-        variant='disabled'
-
-      >enter</Button>
-       <Button
-        variant='danger'
-
-      >enter</Button>
-        <Button
-        variant='success'
-
-      >enter</Button>
-      <br/>
-         <Input
-        type="text"
-        id="title"
-      
-        placeholder="Titulo aqui"
-      />
-      <Input
-        type="text"
-        id="username"
-      
-        placeholder="John doe"
-      />
-
-      */}
-
-      {/* Exemplo usando Label genérico 
-      <Label htmlFor="email">Email Address</Label>
-      <Input
-        type="text"
-        id="email"
-        placeholder="your@email.com"
-      />
-
-       <Textarea
-        id="content"
-       
-        placeholder="Content here"
-        rows="4"
-      /> */}
+      {user ? (
+        <h1>Welcome, {user}!</h1>
+      ) : (
+        <SignUpModal 
+          isOpen={isModalOpen} 
+          onSignUp={handleUserSignUp}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </Layout>
   );
 }

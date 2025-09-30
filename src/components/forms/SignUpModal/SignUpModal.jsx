@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
- import Button from '../../ui/Button/Button';
- import Modal from '../../ui/Modal/Modal';
+import Button from '../../ui/Button/Button';
+import Modal from '../../ui/Modal/Modal';
 import { 
   Input, 
   Textarea, 
-  Label // Se quiser usar o genérico
+  Label
 } from '../../ui/Input/Input';
 import './SignUpModal.css';
 
-const SignUpModal = () => {
+const SignUpModal = ({ isOpen, onSignUp, onClose }) => {
   const [username, setUsername] = useState('');
- 
 
   const handleSubmit = () => {
     if (username.trim()) {
-    return alert(`Welcome, ${username}!`);
+      onSignUp(username.trim());
+      setUsername(''); // Clear input after sign up
     }
   };
 
@@ -25,7 +25,7 @@ const SignUpModal = () => {
   };
 
   return (
-    <Modal isOpen={true} onClose={() => {}}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="signup-modal">
         <h2>Welcome to CodeLeap network!</h2>
         <div>
@@ -37,6 +37,7 @@ const SignUpModal = () => {
             onChange={(e) => setUsername(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="John doe"
+            autoFocus // Focus input when modal opens
           />
           <Button
             onClick={handleSubmit}
