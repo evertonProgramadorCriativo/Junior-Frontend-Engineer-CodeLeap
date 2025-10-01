@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
+
 import Button from '../../ui/Button/Button';
 import { Input, TextArea } from '../../ui/Input/Input';
 import ImageUpload from '../../ui/ImageUpload/ImageUpload';
 import './CreatePostForm.css';
 
 const CreatePostForm = ({ onCreatePost }) => {
-  const { user } = useAuth();
+ 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
