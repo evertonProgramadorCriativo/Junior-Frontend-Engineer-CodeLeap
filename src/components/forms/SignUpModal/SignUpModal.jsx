@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../../ui/Button/Button';
 import Modal from '../../ui/Modal/Modal';
-import { 
-  Input, 
-  Textarea, 
-  Label
-} from '../../ui/Input/Input';
+import { Input } from '../../ui/Input/Input';
 import './SignUpModal.css';
 
 const SignUpModal = ({ isOpen, onSignUp, onClose }) => {
@@ -14,7 +10,7 @@ const SignUpModal = ({ isOpen, onSignUp, onClose }) => {
   const handleSubmit = () => {
     if (username.trim()) {
       onSignUp(username.trim());
-      setUsername(''); // Clear input after sign up
+      setUsername('');
     }
   };
 
@@ -33,17 +29,13 @@ const SignUpModal = ({ isOpen, onSignUp, onClose }) => {
           <Input
             type="text"
             id="username"
-             
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="John doe"
-            autoFocus // Focus input when modal opens
+            autoFocus
           />
-          <Button
-            onClick={handleSubmit}
-            disabled={!username.trim()}
-          >
+          <Button onClick={handleSubmit} disabled={!username.trim()}>
             ENTER
           </Button>
         </div>

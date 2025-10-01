@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../contexts/AuthContext';
 import Button from '../../ui/Button/Button';
 import { Input, TextArea } from '../../ui/Input/Input';
+import ImageUpload from '../../ui/ImageUpload/ImageUpload';
 import './CreatePostForm.css';
 
 const CreatePostForm = ({ onCreatePost }) => {
   const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [image, setImage] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
+    // Validate required fields
     if (!title.trim() || !content.trim()) {
       alert('Please fill in both title and content');
       return;
@@ -20,21 +23,34 @@ const CreatePostForm = ({ onCreatePost }) => {
     const postData = {
       title: title.trim(),
       content: content.trim(),
-      // username será adicionado no handleSubmit do App.js
     };
 
-    // Chama a função passada via props
+    // Add image if provided
+    if (image) {
+      postData.image = image;
+    }
+
+    // Send post data to parent component
     onCreatePost(postData);
-    
-    // Limpa o formulário
+
+    // Reset form fields
     setTitle('');
     setContent('');
+    setImage(null);
+  };
+
+  const handleImageSelect = (base64Image) => {
+    setImage(base64Image);
+  };
+
+  const handleImageRemove = () => {
+    setImage(null);
   };
 
   return (
     <form onSubmit={handleSubmit} className="create-post-form">
       <h3>What's on your mind?</h3>
-      
+
       <div className="form-group">
         <label htmlFor="title">Title</label>
         <Input
@@ -57,9 +73,18 @@ const CreatePostForm = ({ onCreatePost }) => {
         />
       </div>
 
+      <div className="form-group">
+        <label>Image (optional)</label>
+        <ImageUpload
+          onImageSelect={handleImageSelect}
+          currentImage={image}
+          onImageRemove={handleImageRemove}
+        />
+      </div>
+
       <div className="form-actions">
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           disabled={!title.trim() || !content.trim()}
         >
           CREATE

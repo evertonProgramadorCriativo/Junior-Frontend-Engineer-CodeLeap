@@ -1,6 +1,7 @@
 const API_BASE_URL = 'https://dev.codeleap.co.uk/careers/';
 
 const api = {
+  // Generic request handler for all API calls
   async request(endpoint = '', options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
     const response = await fetch(url, {
@@ -11,18 +12,21 @@ const api = {
       ...options,
     });
 
+    // Throw error for failed requests
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
 
+    // Return parsed JSON response
     return response.json();
   },
 
-  // Posts
+  // GET - Fetch all posts
   getPosts() {
     return this.request();
   },
 
+  // POST - Create new post
   createPost(data) {
     return this.request('', {
       method: 'POST',
@@ -30,13 +34,15 @@ const api = {
     });
   },
 
-     updatePost(id, data) {
+  // PATCH - Update existing post
+  updatePost(id, data) {
     return this.request(`${id}/`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   },
 
+  // DELETE - Remove post
   deletePost(id) {
     return this.request(`${id}/`, {
       method: 'DELETE',

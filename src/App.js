@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './components/layout/Layout';
-import { useAuth } from './hooks/useAuth';
+import { useAuth } from './contexts/AuthContext';
+import { usePosts } from './contexts/PostsContext';
 import SignUpModal from './components/forms/SignUpModal/SignUpModal';
-import { usePosts } from './hooks/usePosts';
 import CreatePostForm from './components/forms/CreatePostForm/CreatePostForm';
+import PostCard from './components/posts/PostCard/PostCard';
 
 function App() {
+  // Authentication and state management
   const { user, signUp } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { posts, loading, error, fetchPosts, createPost } = usePosts();
 
+  // Fetch posts on component mount
   useEffect(() => {
     fetchPosts();
-
   }, [fetchPosts]);
 
+  // Log posts when they update
   useEffect(() => {
     console.log('Posts updated:', posts);
   }, [posts]);
 
+  // Show signup modal if no user is logged in
   useEffect(() => {
     if (!user) {
       setIsModalOpen(true);
@@ -27,57 +31,46 @@ function App() {
     }
   }, [user]);
 
+  // Handle user signup and close modal
   const handleUserSignUp = (username) => {
     signUp(username);
     setIsModalOpen(false);
   };
 
-  // função recebe os dados do formulário
+  // Create new post with user data and timestamp
   const handleCreatePost = (postData) => {
     const postWithUser = {
-      ...postData, // title e content do formulário
-      username: user, //  usuário do useAuth
+      ...postData, // Form data (title and content)
+      username: user, // Current user from auth
       created_datetime: new Date().toISOString()
     };
     
-    console.log('Post criado:', postWithUser);
+    console.log('Post created:', postWithUser);
     
-    // Envia para a API via usePosts hook
+    // Send to posts context
     createPost(postWithUser);
   };
 
   return (
     <Layout>
       {user ? (
+        // Main app view when user is logged in
         <>
           <h1>Welcome, {user}!</h1>
           
-          {/*  Passa a função handleCreatePost como prop */}
+          {/* Post creation form */}
           <CreatePostForm onCreatePost={handleCreatePost} />
           
+          {/* Posts display section */}
           <div style={{ padding: '20px' }}>
-            {loading && <p>Carregando...</p>}
-            {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
             
             <h2>Posts:</h2>
             {posts.length > 0 ? (
+              // Render all posts
               posts.map(post => (
-                <div 
-                  key={post.id} 
-                  style={{ 
-                    border: '1px solid #ccc', 
-                    borderRadius: '8px',
-                    margin: '10px 0', 
-                    padding: '15px',
-                    backgroundColor: '#f9f9f9'
-                  }}
-                >
-                  <h3 style={{ margin: '0 0 10px 0' }}>{post.title}</h3>
-                  <p style={{ margin: '0 0 10px 0' }}>{post.content}</p>
-                  <small style={{ color: '#666' }}>
-                    By: {post.username} | ID: {post.id}
-                  </small>
-                </div>
+                <PostCard key={post.id} post={post} />
               ))
             ) : (
               !loading && <p>No posts yet. Create the first one!</p>
@@ -85,6 +78,7 @@ function App() {
           </div>
         </>
       ) : (
+        // Show signup modal when no user is logged in
         <SignUpModal 
           isOpen={isModalOpen} 
           onSignUp={handleUserSignUp}

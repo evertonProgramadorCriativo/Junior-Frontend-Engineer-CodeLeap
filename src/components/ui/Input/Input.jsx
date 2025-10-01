@@ -5,11 +5,9 @@ const Input = ({ ...props }) => {
     return <input className="input-field" {...props} />;
 };
 
-
 const TextArea = ({ ...props }) => {
     return <textarea className="textarea-field" {...props} />;
 };
-
 
 const Label = ({ htmlFor, children, ...props }) => {
     return (
@@ -19,11 +17,8 @@ const Label = ({ htmlFor, children, ...props }) => {
     );
 };
 
-
-
 export {
     Input,
     TextArea,
     Label
 };
-
