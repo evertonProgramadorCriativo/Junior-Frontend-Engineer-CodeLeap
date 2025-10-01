@@ -107,8 +107,8 @@ const PostCard = ({ post }) => {
             ) : (
               <div className="post-image-placeholder">
                 <img
-                  src="/images/placeholder.png"
-                  alt="No image available"
+                  src="https://i.ibb.co/nNBHRQNk/Screenshot-20.png"
+                  alt="Post content"
                   className="post-image"
                 />
               </div>
