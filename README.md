@@ -12,4 +12,6 @@ This project is a simple CRUD (Create, Read, Update, Delete) application built w
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-![imagem](https://i.ibb.co/MyLG8jHZ/Screenshot-14.png)
+
+![imagem-testing-poster](https://i.ibb.co/sdwMq1Qf/Screenshot-19.png)
+![imagem-modal-user](https://i.ibb.co/MyLG8jHZ/Screenshot-14.png)
