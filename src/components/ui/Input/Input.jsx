@@ -6,7 +6,7 @@ const Input = ({ ...props }) => {
 };
 
 
-const Textarea = ({ ...props }) => {
+const TextArea = ({ ...props }) => {
     return <textarea className="textarea-field" {...props} />;
 };
 
@@ -23,7 +23,7 @@ const Label = ({ htmlFor, children, ...props }) => {
 
 export {
     Input,
-    Textarea,
+    TextArea,
     Label
 };
 

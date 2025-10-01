@@ -30,7 +30,18 @@ const api = {
     });
   },
 
+     updatePost(id, data) {
+    return this.request(`${id}/`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  },
 
+  deletePost(id) {
+    return this.request(`${id}/`, {
+      method: 'DELETE',
+    });
+  },
 };
 
 export default api;

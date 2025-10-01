@@ -14,7 +14,7 @@ export const useAuth = () => {
   return {
     user,
     setUser, 
-    signUp,
+    signUp,     
     signOut,
   };
 };

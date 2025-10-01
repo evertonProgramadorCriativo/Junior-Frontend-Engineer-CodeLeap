@@ -33,6 +33,7 @@ const SignUpModal = ({ isOpen, onSignUp, onClose }) => {
           <Input
             type="text"
             id="username"
+             
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             onKeyPress={handleKeyPress}
