@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { usePosts } from '../../../contexts/PostsContext';
 import Button from '../../ui/Button/Button';
@@ -17,10 +17,23 @@ const PostCard = ({ post }) => {
   const [editContent, setEditContent] = useState(post.content);
   const [editImage, setEditImage] = useState(post.image || null);
 
+  // Debug: Log quando o post mudar
+  useEffect(() => {
+    console.log('Post data:', {
+      id: post.id,
+      title: post.title,
+      hasImage: !!post.image,
+      imageUrl: post.image
+    });
+  }, [post]);
+
   // Check if current user owns this post
   const isOwner = user === post.username;
 
   const handleEdit = async () => {
+    console.log('=== SAVING POST ===');
+    console.log('Edit image value:', editImage);
+    
     // Validate form fields
     if (!editTitle.trim() || !editContent.trim()) {
       alert('Please fill in both title and content');
@@ -33,14 +46,18 @@ const PostCard = ({ post }) => {
         content: editContent.trim(),
       };
 
-      // Add image if exists
+      // Adiciona imagem apenas se existir
       if (editImage) {
         updateData.image = editImage;
       }
 
+      console.log('Update data being sent:', updateData);
+
       await updatePost(post.id, updateData);
+      console.log('Post updated successfully!');
       setIsEditModalOpen(false);
     } catch (err) {
+      console.error('Error updating post:', err);
       alert('Error updating post: ' + err.message);
     }
   };
@@ -54,12 +71,26 @@ const PostCard = ({ post }) => {
     }
   };
 
-  const handleImageSelect = (base64Image) => {
-    setEditImage(base64Image);
+  const handleImageSelect = (imageUrl) => {
+    console.log('=== IMAGE SELECTED ===');
+    console.log('Image URL received:', imageUrl);
+    setEditImage(imageUrl);
   };
 
   const handleImageRemove = () => {
+    console.log('=== IMAGE REMOVED ===');
     setEditImage(null);
+  };
+
+  const handleOpenEditModal = () => {
+    console.log('=== OPENING EDIT MODAL ===');
+    console.log('Current post image:', post.image);
+    
+    // Reset form with current post data
+    setEditTitle(post.title);
+    setEditContent(post.content);
+    setEditImage(post.image || null);
+    setIsEditModalOpen(true);
   };
 
   return (
@@ -71,13 +102,7 @@ const PostCard = ({ post }) => {
             <div className="post-actions">
               <Button
                 variant="secondary"
-                onClick={() => {
-                  // Reset form with current post data
-                  setEditTitle(post.title);
-                  setEditContent(post.content);
-                  setEditImage(post.image || null);
-                  setIsEditModalOpen(true);
-                }}
+                onClick={handleOpenEditModal}
               >
                 <FaEdit size={16} />
               </Button>
@@ -92,28 +117,25 @@ const PostCard = ({ post }) => {
         </div>
 
         <div className="post-body">
-          <div className="post-image-container">
-            {post.image ? (
+          {/* Debug: Mostra info da imagem */}
+          {post.image ? (
+            <div className="post-image-container">
               <img
                 src={post.image}
                 alt={post.title}
                 className="post-image"
+                onLoad={() => console.log(' Image loaded successfully:', post.image)}
                 onError={(e) => {
-                  console.warn('Image failed to load:', post.image);
-                  e.target.onerror = null; // Prevent error loop
-                  e.target.src = '/logo.jpg'; // Fallback image
+                  console.error(' Image failed to load:', post.image);
+                  console.error('Error event:', e);
                 }}
               />
-            ) : (
-              <div className="post-image-placeholder">
-                <img
-                  src="https://i.ibb.co/nNBHRQNk/Screenshot-20.png"
-                  alt="Post content"
-                  className="post-image"
-                />
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div style={{ padding: '10px', background: '#f0f0f0', textAlign: 'center' }}>
+              <small>No image</small>
+            </div>
+          )}
 
           <p className="post-content">{post.content}</p>
         </div>
@@ -146,7 +168,7 @@ const PostCard = ({ post }) => {
             />
           </div>
           <div className="form-group">
-            <label>Image</label>
+            <label>Image (Current: {editImage ? ' Has image' : ' No image'})</label>
             <ImageUpload
               onImageSelect={handleImageSelect}
               currentImage={editImage}

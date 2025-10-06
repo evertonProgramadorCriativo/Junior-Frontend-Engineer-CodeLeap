@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './ImageUpload.css';
 import { FaImage, FaTimes, FaSpinner } from 'react-icons/fa';
 import cloudinaryService from '../../../services/cloudinaryService';
@@ -7,6 +7,11 @@ const ImageUpload = ({ onImageSelect, currentImage, onImageRemove }) => {
   const [preview, setPreview] = useState(currentImage || null);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Atualiza preview quando currentImage mudar (usado na edição)
+  useEffect(() => {
+    setPreview(currentImage || null);
+  }, [currentImage]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -43,7 +48,7 @@ const ImageUpload = ({ onImageSelect, currentImage, onImageRemove }) => {
       } catch (error) {
         console.error('Upload failed:', error);
         alert('Failed to upload image. Please try again.');
-        setPreview(null);
+        setPreview(currentImage || null); // Restaura imagem anterior se houver
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }

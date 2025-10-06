@@ -7,7 +7,6 @@ import CreatePostForm from './components/forms/CreatePostForm/CreatePostForm';
 import PostCard from './components/posts/PostCard/PostCard';
 
 function App() {
-  // Authentication and state management
   const { user, signUp } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { posts, loading, error, fetchPosts, createPost } = usePosts();
@@ -16,11 +15,6 @@ function App() {
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
-
-  // Log posts when they update
-  useEffect(() => {
-    console.log('Posts updated:', posts);
-  }, [posts]);
 
   // Show signup modal if no user is logged in
   useEffect(() => {
@@ -38,23 +32,23 @@ function App() {
   };
 
   // Create new post with user data and timestamp
-  const handleCreatePost = (postData) => {
+  const handleCreatePost = async (postData) => {
     const postWithUser = {
-      ...postData, // Form data (title and content)
+      ...postData, // Form data (title, content, and image)
       username: user, // Current user from auth
       created_datetime: new Date().toISOString()
     };
     
-    console.log('Post created:', postWithUser);
-    
-    // Send to posts context
-    createPost(postWithUser);
+    try {
+      await createPost(postWithUser);
+    } catch (err) {
+      alert('Error creating post: ' + err.message);
+    }
   };
 
   return (
     <Layout>
       {user ? (
-        // Main app view when user is logged in
         <>
           <h1>Welcome, {user}!</h1>
           
@@ -68,7 +62,6 @@ function App() {
             
             <h2>Posts:</h2>
             {posts.length > 0 ? (
-              // Render all posts
               posts.map(post => (
                 <PostCard key={post.id} post={post} />
               ))
@@ -78,7 +71,6 @@ function App() {
           </div>
         </>
       ) : (
-        // Show signup modal when no user is logged in
         <SignUpModal 
           isOpen={isModalOpen} 
           onSignUp={handleUserSignUp}

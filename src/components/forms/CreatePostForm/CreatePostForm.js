@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-
 import Button from '../../ui/Button/Button';
 import { Input, TextArea } from '../../ui/Input/Input';
 import ImageUpload from '../../ui/ImageUpload/ImageUpload';
 import './CreatePostForm.css';
 
 const CreatePostForm = ({ onCreatePost }) => {
- 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log('=== CREATING POST ===');
+    console.log('Title:', title);
+    console.log('Content:', content);
+    console.log('Image:', image);
 
     // Validate required fields
     if (!title.trim() || !content.trim()) {
@@ -28,7 +31,12 @@ const CreatePostForm = ({ onCreatePost }) => {
     // Add image if provided
     if (image) {
       postData.image = image;
+      console.log(' Image added to post data');
+    } else {
+      console.log(' No image to add');
     }
+
+    console.log('Final post data:', postData);
 
     // Send post data to parent component
     onCreatePost(postData);
@@ -40,10 +48,15 @@ const CreatePostForm = ({ onCreatePost }) => {
   };
 
   const handleImageSelect = (base64Image) => {
+    console.log('=== IMAGE SELECTED IN FORM ===');
+    console.log('Image URL:', base64Image);
+    console.log('Image type:', typeof base64Image);
+    console.log('Image length:', base64Image?.length);
     setImage(base64Image);
   };
 
   const handleImageRemove = () => {
+    console.log('=== IMAGE REMOVED IN FORM ===');
     setImage(null);
   };
 
@@ -74,7 +87,7 @@ const CreatePostForm = ({ onCreatePost }) => {
       </div>
 
       <div className="form-group">
-        <label>Image (optional)</label>
+        <label>Image (optional) - {image ? ' Image selected' : ' No image'}</label>
         <ImageUpload
           onImageSelect={handleImageSelect}
           currentImage={image}

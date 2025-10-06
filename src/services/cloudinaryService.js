@@ -1,4 +1,4 @@
-// Cloudinary credentials
+
 const CLOUD_NAME = 'dnmaj73rg'; 
 const UPLOAD_PRESET = 'codeleap_uploads'; 
 
