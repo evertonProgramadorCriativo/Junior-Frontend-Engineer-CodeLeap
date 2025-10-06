@@ -9,7 +9,7 @@
      color: #555;
  }
 
- input[type="text"],
+ input[type="text"], input[type="number"], input[type="email"],
  textarea {
      width: 100%;
      padding: 0.75rem;
@@ -21,7 +21,7 @@
      background-color: #fff;
  }
 
- input[type="text"]:focus,
+ input[type="text"]:focus,input[type="number"]:focusinput[type="email"]:focus
  textarea:focus {
      outline: none;
      border-color: #7695EC;
@@ -34,3 +34,6 @@
      min-height: 6rem;
      font-family: inherit;
  }
+
+
+ 

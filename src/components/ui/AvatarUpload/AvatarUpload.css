@@ -1,0 +1,108 @@
+.avatar-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar-wrapper {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #7695EC, #5575d8);
+  box-shadow: 0 4px 15px rgba(118, 149, 236, 0.3);
+  transition: all 0.3s ease;
+}
+
+.avatar-wrapper.editable {
+  cursor: pointer;
+}
+
+.avatar-wrapper.editable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(118, 149, 236, 0.4);
+}
+
+.avatar-wrapper.uploading {
+  cursor: wait;
+}
+
+.avatar-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #7695EC, #5575d8);
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-overlay .spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.overlay-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.avatar-hint {
+  font-size: 0.75rem;
+  color: #666;
+  margin: 0;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .overlay-text {
+    font-size: 0.7rem;
+  }
+
+  .avatar-hint {
+    font-size: 0.7rem;
+  }
+}
