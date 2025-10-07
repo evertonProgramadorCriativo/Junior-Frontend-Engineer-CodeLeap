@@ -29,13 +29,13 @@ const Navigation = () => {
             to="/profile"
             className={`nav-link ${isActive('/profile') ? 'active' : ''}`}
           >
-            <FaUser /> Perfil
+            <FaUser /> Profile
           </Link>
           <Link
             to="/users"
             className={`nav-link ${isActive('/users') ? 'active' : ''}`}
           >
-            <FaUsers /> Usuários
+            <FaUsers /> Users
           </Link>
         </div>
         <div className="nav-user">

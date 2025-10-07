@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 import { useUserProfile } from '../../contexts/UserProfileContext';
 import Button from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
 import AvatarUpload from '../ui/AvatarUpload/AvatarUpload';
+ 
 import { FaUser, FaEnvelope, FaMapMarkerAlt, FaBirthdayCake, FaSave } from 'react-icons/fa';
 import './ProfilePage.css';
 
@@ -226,7 +228,13 @@ const ProfilePage = () => {
               </>
             ) : (
               <Button type="button" variant="primary" onClick={() => setIsEditing(true)}>
-                Edit Profile
+                
+            <Link
+            to="/users"
+            className='nav-link-profile'
+          >
+             Edit Profile
+          </Link>
               </Button>
             )}
           </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 // Create Context for user profile management
 const UserProfileContext = createContext();
@@ -9,9 +9,10 @@ const profileDatabase = new Map();
 // Provider component to wrap the application
 export const UserProfileProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
 
   // Load user profile from in-memory database when username changes
-  const loadProfile = (username) => {
+  const loadProfile = useCallback((username) => {
     if (!username) {
       setUserProfile(null);
       return;
@@ -34,10 +35,13 @@ export const UserProfileProvider = ({ children }) => {
       profileDatabase.set(username, defaultProfile);
       setUserProfile(defaultProfile);
     }
-  };
+    
+    // Update all users list
+    updateAllUsersList();
+  }, []);
 
   // Save or update user profile
-  const saveProfile = (username, profileData) => {
+  const saveProfile = useCallback((username, profileData) => {
     const updatedProfile = {
       ...profileData,
       username: username,
@@ -46,28 +50,53 @@ export const UserProfileProvider = ({ children }) => {
     
     profileDatabase.set(username, updatedProfile);
     setUserProfile(updatedProfile);
+    
+    // Update all users list
+    updateAllUsersList();
+    
     return updatedProfile;
-  };
+  }, []);
+
+  // Update the list of all users
+  const updateAllUsersList = useCallback(() => {
+    const users = Array.from(profileDatabase.values());
+    setAllUsers(users);
+  }, []);
 
   // Get profile for specific user
-  const getProfile = (username) => {
+  const getProfile = useCallback((username) => {
     return profileDatabase.get(username);
-  };
+  }, []);
+
+  // Get all registered users
+  const getAllUsers = useCallback(() => {
+    return Array.from(profileDatabase.values());
+  }, []);
 
   // Check if profile is complete
-  const isProfileComplete = (profile) => {
+  const isProfileComplete = useCallback((profile) => {
     if (!profile) return false;
     return !!(profile.name && profile.age && profile.address && profile.email);
-  };
+  }, []);
+
+  // Delete user profile
+  const deleteProfile = useCallback((username) => {
+    profileDatabase.delete(username);
+    updateAllUsersList();
+  }, []);
 
   return (
     <UserProfileContext.Provider
       value={{
         userProfile,
+        allUsers,
         loadProfile,
         saveProfile,
         getProfile,
-        isProfileComplete
+        getAllUsers,
+        isProfileComplete,
+        deleteProfile,
+        updateAllUsersList
       }}
     >
       {children}
