@@ -12,7 +12,7 @@ const CreatePostForm = ({ onCreatePost }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('=== CREATING POST ===');
+    
     console.log('Title:', title);
     console.log('Content:', content);
     console.log('Image:', image);
@@ -48,7 +48,7 @@ const CreatePostForm = ({ onCreatePost }) => {
   };
 
   const handleImageSelect = (base64Image) => {
-    console.log('=== IMAGE SELECTED IN FORM ===');
+  
     console.log('Image URL:', base64Image);
     console.log('Image type:', typeof base64Image);
     console.log('Image length:', base64Image?.length);
@@ -56,7 +56,7 @@ const CreatePostForm = ({ onCreatePost }) => {
   };
 
   const handleImageRemove = () => {
-    console.log('=== IMAGE REMOVED IN FORM ===');
+    
     setImage(null);
   };
 

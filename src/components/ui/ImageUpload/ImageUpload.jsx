@@ -8,7 +8,7 @@ const ImageUpload = ({ onImageSelect, currentImage, onImageRemove }) => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
 
-  // Atualiza preview quando currentImage mudar (usado na edição)
+  // Update preview when currentImage changes (used in editing)
   useEffect(() => {
     setPreview(currentImage || null);
   }, [currentImage]);
@@ -48,7 +48,7 @@ const ImageUpload = ({ onImageSelect, currentImage, onImageRemove }) => {
       } catch (error) {
         console.error('Upload failed:', error);
         alert('Failed to upload image. Please try again.');
-        setPreview(currentImage || null); // Restaura imagem anterior se houver
+        setPreview(currentImage || null); // Restore previous image if exists
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }

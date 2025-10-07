@@ -15,13 +15,13 @@ const AvatarUpload = ({ currentAvatar, onAvatarChange, size = 100, editable = tr
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecione uma imagem válida');
+      alert('Please select a valid image');
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('A imagem deve ter menos de 5MB');
+      alert('Image must be less than 5MB');
       return;
     }
 
@@ -45,7 +45,7 @@ const AvatarUpload = ({ currentAvatar, onAvatarChange, size = 100, editable = tr
       console.log('Avatar uploaded successfully:', uploadResult.url);
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('Falha ao fazer upload da imagem. Tente novamente.');
+      alert('Failed to upload image. Please try again.');
     } finally {
       setIsUploading(false);
       // Clear input
@@ -68,7 +68,7 @@ const AvatarUpload = ({ currentAvatar, onAvatarChange, size = 100, editable = tr
         style={{ width: size, height: size }}
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
-
+        onMouseLeave={() => setIsHovered(false)}
       >
         <input
           ref={fileInputRef}
@@ -107,12 +107,12 @@ const AvatarUpload = ({ currentAvatar, onAvatarChange, size = 100, editable = tr
             {isUploading ? (
               <>
                 <FaSpinner className="spinner" size={24} />
-                <span className="overlay-text">Enviando...</span>
+                <span className="overlay-text">Uploading...</span>
               </>
             ) : (
               <>
                 <FaCamera size={24} />
-                <span className="overlay-text">Alterar foto</span>
+                <span className="overlay-text">Change photo</span>
               </>
             )}
           </div>
@@ -121,7 +121,7 @@ const AvatarUpload = ({ currentAvatar, onAvatarChange, size = 100, editable = tr
 
       {editable && !isUploading && (
         <p className="avatar-hint">
-          <FaCamera size={12} /> Clique no avatar para alterar a foto
+          <FaCamera size={12} /> Click on the avatar to change the photo
         </p>
       )}
     </div>

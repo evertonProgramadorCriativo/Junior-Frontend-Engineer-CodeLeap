@@ -31,7 +31,7 @@ const PostCard = ({ post }) => {
   const isOwner = user === post.username;
 
   const handleEdit = async () => {
-    console.log('=== SAVING POST ===');
+     
     console.log('Edit image value:', editImage);
     
     // Validate form fields
@@ -72,18 +72,18 @@ const PostCard = ({ post }) => {
   };
 
   const handleImageSelect = (imageUrl) => {
-    console.log('=== IMAGE SELECTED ===');
+    
     console.log('Image URL received:', imageUrl);
     setEditImage(imageUrl);
   };
 
   const handleImageRemove = () => {
-    console.log('=== IMAGE REMOVED ===');
+    
     setEditImage(null);
   };
 
   const handleOpenEditModal = () => {
-    console.log('=== OPENING EDIT MODAL ===');
+    
     console.log('Current post image:', post.image);
     
     // Reset form with current post data

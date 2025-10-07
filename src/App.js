@@ -9,6 +9,7 @@ import SignUpModal from './components/forms/SignUpModal/SignUpModal';
 import CreatePostForm from './components/forms/CreatePostForm/CreatePostForm';
 import PostCard from './components/posts/PostCard/PostCard';
 import ProfilePage from './components/pages/ProfilePage';
+import UsersPage from './components/pages/UsersPage';
 
 // Home Page Component
 function HomePage() {
@@ -91,6 +92,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/users" element={<UsersPage />} /> 
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </>

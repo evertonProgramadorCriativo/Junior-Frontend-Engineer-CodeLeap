@@ -71,7 +71,7 @@ const ProfilePage = () => {
     
     // Validate all fields
     if (!formData.name.trim() || !formData.age || 
-    !formData.address.trim() || !formData.email.trim()) {
+        !formData.address.trim() || !formData.email.trim()) {
       alert('Por favor, preencha todos os campos');
       return;
     }
@@ -116,8 +116,8 @@ const ProfilePage = () => {
     return (
       <div className="profile-page">
         <div className="profile-container">
-          <h2>Acesso Negado</h2>
-          <p>Você precisa estar logado para ver esta página.</p>
+          <h2>Access Denied</h2>
+          <p>You need to be logged in to view this page.</p>
         </div>
       </div>
     );
@@ -133,9 +133,9 @@ const ProfilePage = () => {
             size={120}
             editable={true}
           />
-          <h1>Perfil de {user}</h1>
+          <h1>{user}'s Profile</h1>
           {!isProfileComplete(userProfile) && (
-            <p className="incomplete-warning">Complete seu perfil para continuar</p>
+            <p className="incomplete-warning">Complete your profile to continue</p>
           )}
         </div>
 
@@ -148,7 +148,7 @@ const ProfilePage = () => {
         <form onSubmit={handleSubmit} className="profile-form">
           <div className="form-group">
             <label htmlFor="name">
-              <FaUser /> Nome Completo
+              <FaUser /> Full Name
             </label>
             <Input
               type="text"
@@ -156,7 +156,7 @@ const ProfilePage = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              placeholder="João Silva"
+              placeholder="John Smith"
               disabled={!isEditing}
               required
             />
@@ -164,7 +164,7 @@ const ProfilePage = () => {
 
           <div className="form-group">
             <label htmlFor="age">
-              <FaBirthdayCake /> Idade
+              <FaBirthdayCake /> Age
             </label>
             <Input
               type="number"
@@ -190,7 +190,7 @@ const ProfilePage = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              placeholder="joao@example.com"
+              placeholder="john@example.com"
               disabled={!isEditing}
               required
             />
@@ -198,7 +198,7 @@ const ProfilePage = () => {
 
           <div className="form-group">
             <label htmlFor="address">
-              <FaMapMarkerAlt /> Endereço
+              <FaMapMarkerAlt /> Address
             </label>
             <Input
               type="text"
@@ -206,7 +206,7 @@ const ProfilePage = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              placeholder="Rua Example, 123 - Cidade, Estado"
+              placeholder="123 Main St - City, State"
               disabled={!isEditing}
               required
             />
@@ -216,17 +216,17 @@ const ProfilePage = () => {
             {isEditing ? (
               <>
                 <Button type="submit" variant="success">
-                  <FaSave /> Salvar Perfil
+                  <FaSave /> Save Profile
                 </Button>
                 {isProfileComplete(userProfile) && (
                   <Button type="button" variant="secondary" onClick={handleCancel}>
-                    Cancelar
+                    Cancel
                   </Button>
                 )}
               </>
             ) : (
               <Button type="button" variant="primary" onClick={() => setIsEditing(true)}>
-                Editar Perfil
+                Edit Profile
               </Button>
             )}
           </div>
@@ -235,7 +235,7 @@ const ProfilePage = () => {
         {userProfile?.updatedAt && (
           <div className="profile-footer">
             <small>
-              Última atualização: {new Date(userProfile.updatedAt).toLocaleString('pt-BR')}
+              Last updated: {new Date(userProfile.updatedAt).toLocaleString('en-US')}
             </small>
           </div>
         )}
