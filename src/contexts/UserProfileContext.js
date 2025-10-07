@@ -1,15 +1,17 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
-// Create Context for user profile management
 const UserProfileContext = createContext();
-
-// In-memory database for user profiles
 const profileDatabase = new Map();
 
-// Provider component to wrap the application
 export const UserProfileProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
+
+  // Update the list of all users (MOVED TO TOP)
+  const updateAllUsersList = useCallback(() => {
+    const users = Array.from(profileDatabase.values());
+    setAllUsers(users);
+  }, []);
 
   // Load user profile from in-memory database when username changes
   const loadProfile = useCallback((username) => {
@@ -22,7 +24,6 @@ export const UserProfileProvider = ({ children }) => {
     if (existingProfile) {
       setUserProfile(existingProfile);
     } else {
-      // Create default profile for new user
       const defaultProfile = {
         username: username,
         name: '',
@@ -36,9 +37,8 @@ export const UserProfileProvider = ({ children }) => {
       setUserProfile(defaultProfile);
     }
     
-    // Update all users list
     updateAllUsersList();
-  }, []);
+  }, [updateAllUsersList]); // 
 
   // Save or update user profile
   const saveProfile = useCallback((username, profileData) => {
@@ -51,17 +51,10 @@ export const UserProfileProvider = ({ children }) => {
     profileDatabase.set(username, updatedProfile);
     setUserProfile(updatedProfile);
     
-    // Update all users list
     updateAllUsersList();
     
     return updatedProfile;
-  }, []);
-
-  // Update the list of all users
-  const updateAllUsersList = useCallback(() => {
-    const users = Array.from(profileDatabase.values());
-    setAllUsers(users);
-  }, []);
+  }, [updateAllUsersList]); 
 
   // Get profile for specific user
   const getProfile = useCallback((username) => {
@@ -83,7 +76,7 @@ export const UserProfileProvider = ({ children }) => {
   const deleteProfile = useCallback((username) => {
     profileDatabase.delete(username);
     updateAllUsersList();
-  }, []);
+  }, [updateAllUsersList]); 
 
   return (
     <UserProfileContext.Provider
@@ -104,7 +97,6 @@ export const UserProfileProvider = ({ children }) => {
   );
 };
 
-// Custom hook to access user profile context
 export const useUserProfile = () => {
   const context = useContext(UserProfileContext);
   if (!context) {
