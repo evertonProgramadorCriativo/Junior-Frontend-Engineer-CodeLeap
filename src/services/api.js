@@ -16,7 +16,10 @@ const api = {
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
-
+       // For DELETE requests, don't try to parse JSON (response is empty)
+    if (options.method === 'DELETE') {
+      return { success: true };
+    }
     // Return parsed JSON response
     return response.json();
   },
